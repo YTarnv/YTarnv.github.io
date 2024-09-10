@@ -1,0 +1,17 @@
+.playField {
+    background-color: #c2c2c2;
+    width: 620px;
+    height: 620px;
+    position: relative;
+    box-shadow: inset -5px -5px 5px 0 rgba(0, 0, 0, .5), inset 5px 5px 5px 0 rgba(255, 255, 255, 0.5);
+}
+.solved {
+    position: absolute;
+    top: -70px;
+    width: 620px;
+    height: 690px;
+    background-color: rgba(255, 255, 255, 0);
+    text-align: center;
+    color: red;
+    user-select: none; 
+}
