@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './playField.css';
 import Square from '../square/square.js';
 import {generateImageFragments, normalizeAndGenerateImageFragments} from './utils.js';
-import image from './testimag1.jpg';
+import image from './testimage.jpg';
 
 const directions = {
     "1,0": [1, 0],  // right
@@ -13,8 +13,8 @@ const directions = {
 
 function generateEmptySquare() {
     return {
-        x: Math.floor(Math.random() * 5), // случайное значение от 0 до 4 для x
-        y: Math.floor(Math.random() * 5)  // случайное значение от 0 до 4 для y
+        x: Math.floor(Math.random() * 5), // random value from 0 to 4 for x
+        y: Math.floor(Math.random() * 5)  // random value from 0 to 4 for y
     };
 }
 
@@ -74,7 +74,7 @@ function isPuzzleSolved(squares) {
 }
 
 function createNewSquares(emptySquare) {
-    // Создаем массив всех возможных координат
+    // Create an array of all possible coordinates
     const coordinates = [];
     for (let y = 0; y < 5; y++) {
         for (let x = 0; x < 5; x++) {
@@ -82,17 +82,17 @@ function createNewSquares(emptySquare) {
         }
     }
 
-    // Удаляем координаты для emptySquare
+    // Remove coordinates for emptySquare
     const emptyIndex = coordinates.findIndex(coord => coord.x === emptySquare.x && coord.y === emptySquare.y);
     coordinates.splice(emptyIndex, 1);
 
-    // Перемешиваем оставшиеся координаты случайным образом
+    // shuffle the remaining coordinates randomly
     const shuffledCoordinates = coordinates.sort(() => Math.random() - 0.5);
 
-    // Генерируем случайные id от 1 до 24
+    // Generate random ids from 1 to 24
     const ids = Array.from({ length: 24 }, (_, i) => i + 1).sort(() => Math.random() - 0.5);
 
-    // Создаем массив newSquares с случайными id и случайными координатами
+    // Create an array newSquares with random ids and random coordinates
     const newSquares = shuffledCoordinates.map((coord, index) => ({
         positionX: coord.x,
         positionY: coord.y,
@@ -102,7 +102,7 @@ function createNewSquares(emptySquare) {
 
     return newSquares;
 }
-//test comment
+
 export default function PlayField({ buttonHandlers }) {
 
     const [emptySquare, setEmptySquare] = useState({ x: 0, y: 0 });
@@ -124,11 +124,11 @@ export default function PlayField({ buttonHandlers }) {
     useEffect(() => {
         normalizeAndGenerateImageFragments(image, 120, 5, 5)
     .then(imageFragments => {
-        console.log('Фрагменты изображения успешно созданы');
+        console.log('Image fragments successfully created');
         setImages(imageFragments);
     })
     .catch(error => {
-        console.error('Ошибка при создании фрагментов изображения:', error);
+        console.error('Error creating image fragments:', error);
     });
     },[])
 

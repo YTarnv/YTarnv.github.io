@@ -1,7 +1,7 @@
 export function findSolutionPath(squares, emptySquare) {
-    const goalState = generateGoalState();  // Целевое состояние (заданная последовательность)
-    const visited = new Set();  // Набор для отслеживания посещенных состояний
-    const priorityQueue = [];   // Очередь с приоритетом для A* (состояние, стоимость, глубина)
+    const goalState = generateGoalState();  // Target state (specified sequence)
+    const visited = new Set();  // Set for tracking visited states
+    const priorityQueue = [];   // A* priority queue (state, cost, depth)
     
     priorityQueue.push({ squares, emptySquare, path: [], cost: 0 });
     visited.add(hashState(squares, emptySquare));  // Добавляем начальное состояние в посещенные
@@ -10,10 +10,10 @@ export function findSolutionPath(squares, emptySquare) {
         const { squares: currentSquares, emptySquare: currentEmpty, path, cost } = priorityQueue.shift();
 
         if (isPuzzleSolved(currentSquares)) {
-            return path;  // Возвращаем путь к решению
+            return path;  // Returning the path to the solution
         }
 
-        const neighbors = getNeighbors(currentEmpty);  // Получаем возможные ходы пустого квадрата
+        const neighbors = getNeighbors(currentEmpty);  // Get possible moves of empty square
 
         for (const neighbor of neighbors) {
             const newSquares = moveSquareImitation(currentSquares, currentEmpty, neighbor);
@@ -29,11 +29,11 @@ export function findSolutionPath(squares, emptySquare) {
             }
         }
 
-        // Сортировка очереди по приоритету
+        // Sorting the queue by priority
         priorityQueue.sort((a, b) => a.cost - b.cost);
     }
 
-    return null;  // Решение не найдено
+    return null;  // Solution not found
 }
 
 function generateGoalState() {
@@ -60,13 +60,13 @@ function hashState(squares, emptySquare) {
 function heuristicCost(squares) {
     let distance = 0;
 
-    // Проходим по каждому квадрату
+    // Walk through every square
     for (const square of squares) {
-        // Целевая позиция каждого квадрата — это положение его контента в отсортированной головоломке
-        const targetX = (square.content - 1) % 5;  // вычисляем целевую координату X
-        const targetY = Math.floor((square.content - 1) / 5);  // вычисляем целевую координату Y
+        // The target position of each square is the position of its content in the sorted puzzle.
+        const targetX = (square.content - 1) % 5;  // calculate the target X coordinate
+        const targetY = Math.floor((square.content - 1) / 5);  // calculate the target Y coordinate
 
-        // Манхэттенское расстояние от текущей позиции до целевой
+        // Manhattan distance from current position to target
         distance += Math.abs(square.positionX - targetX) + Math.abs(square.positionY - targetY);
     }
 
@@ -86,20 +86,20 @@ function moveSquareImitation(squares, emptySquare, newEmpty) {
 
 function getNeighbors(emptySquare) {
     const directions = [
-        { x: emptySquare.x + 1, y: emptySquare.y }, // Вправо
-        { x: emptySquare.x - 1, y: emptySquare.y }, // Влево
-        { x: emptySquare.x, y: emptySquare.y + 1 }, // Вниз
-        { x: emptySquare.x, y: emptySquare.y - 1 }  // Вверх
+        { x: emptySquare.x + 1, y: emptySquare.y }, // right
+        { x: emptySquare.x - 1, y: emptySquare.y }, // left
+        { x: emptySquare.x, y: emptySquare.y + 1 }, // bottom
+        { x: emptySquare.x, y: emptySquare.y - 1 }  // Top
     ];
 
-    return directions.filter(dir => dir.x >= 0 && dir.x < 5 && dir.y >= 0 && dir.y < 5);  // Ограничение по границам
+    return directions.filter(dir => dir.x >= 0 && dir.x < 5 && dir.y >= 0 && dir.y < 5);  // Limitation by borders
 }
 
 function isPuzzleSolved(squares) {
     for (let i = 0; i < squares.length; i++) {
         const square = squares[i];
-        const expectedX = (square.content - 1) % 5; // ожидаемая позиция по X
-        const expectedY = Math.floor((square.content - 1) / 5); // ожидаемая позиция по Y
+        const expectedX = (square.content - 1) % 5; // expected position on X
+        const expectedY = Math.floor((square.content - 1) / 5); // expected position on Y
         if (square.positionX !== expectedX || square.positionY !== expectedY) {
             return false;
         }

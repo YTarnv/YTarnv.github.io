@@ -38,19 +38,19 @@ export function normalizeAndGenerateImageFragments(imageUrl, fragmentSize, numRo
             const originalWidth = image.width;
             const originalHeight = image.height;
             
-            // Шаг 1: Обрезка до квадрата
+            // Step 1: Trim to square
             const sideLength = Math.min(originalWidth, originalHeight);
             const offsetX = (originalWidth > originalHeight) ? (originalWidth - sideLength) / 2 : 0;
             const offsetY = (originalHeight > originalWidth) ? (originalHeight - sideLength) / 2 : 0;
             
-            // Шаг 2: Масштабирование до размера сетки фрагментов
-            const totalSize = fragmentSize * numRows; // Общий размер сетки
+            // Step 2: Scale to fragment grid size
+            const totalSize = fragmentSize * numRows; // Overall grid size
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             canvas.width = totalSize;
             canvas.height = totalSize;
             
-            // Обрезаем и масштабируем изображение
+            // Crop and scale the image
             ctx.drawImage(image, offsetX, offsetY, sideLength, sideLength, 0, 0, totalSize, totalSize);
             
             const fragments = [];
@@ -61,7 +61,7 @@ export function normalizeAndGenerateImageFragments(imageUrl, fragmentSize, numRo
                     fragmentCanvas.width = fragmentSize;
                     fragmentCanvas.height = fragmentSize;
 
-                    // Вырезаем фрагмент изображения из общего canvas
+                    // Cut out a fragment of an image from the overall canvas
                     const fragmentX = col * fragmentSize;
                     const fragmentY = row * fragmentSize;
                     fragmentCtx.drawImage(canvas, fragmentX, fragmentY, fragmentSize, fragmentSize, 0, 0, fragmentSize, fragmentSize);

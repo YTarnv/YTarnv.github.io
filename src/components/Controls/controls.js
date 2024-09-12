@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import './controls.css';
 import Button from './Buttons/button.js';
+import Switch from './Switches/switch.js';
 
 export default function Controls({ setButtonHandlers }) {
 
     const [buttons, setButtons] = useState([]);
 
     const handleClick = (buttonId) => {
-        // Принудительное обновление состояния
-        setButtonHandlers(null);  // Сбрасываем состояние
+        // Force state update
+        setButtonHandlers(null);  // Resetting the state
         setTimeout(() => {
-            setButtonHandlers(buttonId);  // Устанавливаем новое значение с небольшой задержкой
+            setButtonHandlers(buttonId);  // Set a new value with a short delay
         }, 0);
     };
 
@@ -34,6 +35,7 @@ export default function Controls({ setButtonHandlers }) {
     return (
         <div className="controlPanel">
             {buttonElements}
+            <Switch />
         </div>
     )
 }
