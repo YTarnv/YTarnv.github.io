@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './playField.css';
 import Square from '../square/square.js';
-import {generateImageFragments, normalizeAndGenerateImageFragments} from './utils.js';
+import {normalizeAndGenerateImageFragments} from './utils.js';
 import image from './testimage.jpg';
 
 const directions = {
@@ -62,6 +62,9 @@ function isSolvable(puzzle) {
 }
 
 function isPuzzleSolved(squares) {
+    if (!squares || squares.length === 0) {
+        return false;
+    }
     for (let i = 0; i < squares.length; i++) {
         const square = squares[i];
         const expectedX = (square.content - 1) % 5; 
@@ -103,11 +106,12 @@ function createNewSquares(emptySquare) {
     return newSquares;
 }
 
-export default function PlayField({ buttonHandlers }) {
+export default function PlayField({ controlHandlers }) {
 
     const [emptySquare, setEmptySquare] = useState({ x: 0, y: 0 });
     const [squares, setSquares] = useState([]);
     const [images, setImages] = useState([]);
+    const [settings, setSettings] = useState({set1: {switch1: true, switch2: true}, set2: {switch3: true, switch4: true}});
 
     const initializePuzzle = () => {
         let initialEmptySquare;
@@ -119,6 +123,43 @@ export default function PlayField({ buttonHandlers }) {
 
         setEmptySquare(initialEmptySquare);
         setSquares(initialSquares);
+    };
+
+    const switchSwitched = () => {
+        setSettings(prevSettings => {
+            // Create a new object based on the previous state
+            const updatedSettings = { ...prevSettings };
+            
+            const setContainingKey = ['set1', 'set2'].find(setKey =>
+                controlHandlers in updatedSettings[setKey]
+            );
+
+            if (!setContainingKey) {
+                // If controlHandlers does not exist in any set, return previous state
+                return updatedSettings;
+            }
+
+            // Toggle the value of the key in the identified set
+            updatedSettings[setContainingKey][controlHandlers] = !updatedSettings[setContainingKey][controlHandlers];
+
+            // Extract the keys of the identified set
+            const keys = Object.keys(updatedSettings[setContainingKey]);
+
+            // Check if both elements in the set are false
+            const allFalse = keys.every(key => !updatedSettings[setContainingKey][key]);
+
+            if (allFalse) {
+                // If both elements are false, set the other element to true
+                keys.forEach(key => {
+                    if (key !== controlHandlers) {
+                        updatedSettings[setContainingKey][key] = true;
+                    }
+                });
+            }
+
+            // Return the updated state
+            return updatedSettings;
+        });
     };
 
     useEffect(() => {
@@ -134,13 +175,15 @@ export default function PlayField({ buttonHandlers }) {
 
     useEffect(() => {
         const handlers = {
-            1: initializePuzzle,
-            2: initializePuzzle
+            button1: initializePuzzle,
+            button2: initializePuzzle,
+            switch1: switchSwitched,
+            switch2: switchSwitched
         };
-        if (buttonHandlers && handlers[buttonHandlers]) {
-            handlers[buttonHandlers]();
+        if (controlHandlers && handlers[controlHandlers]) {
+            handlers[controlHandlers]();
         }
-    }, [buttonHandlers]);
+    }, [controlHandlers]);
 
     useEffect(() => {
         initializePuzzle();
@@ -170,6 +213,8 @@ export default function PlayField({ buttonHandlers }) {
             id = {square.id}
             key = {"square" + square.content}
             image = {images[square.content-1]}
+            needNumbers={settings.set1.switch1}
+            needImage={settings.set1.switch2}
             moveSquare = {() => moveSquare(square.positionX,square.positionY)}
         />
     ))

@@ -4,9 +4,8 @@ export default function Square(props) {
     const styles = {
         top: props.positionY * 120 + 10,
         left: props.positionX * 120 + 10,
-        backgroundImage: "URL(" + props.image + ")"
+        backgroundImage: props.needImage ? `url(${props.image})` : undefined
     }
-    console.log(props.image);
     return (
     <div 
         id = {props.id}
@@ -14,7 +13,7 @@ export default function Square(props) {
         style = {styles}
         onClick = {props.moveSquare}
     >
-        <h2>{props.content}</h2>
+        {props.needNumbers && <h2>{props.content}</h2>}
     </div>
 )
     

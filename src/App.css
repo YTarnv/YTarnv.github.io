@@ -23,6 +23,7 @@ html, body {
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
+  font-family: 'Poppins', sans-serif;
 }
 
 @media (prefers-reduced-motion: no-preference) {
