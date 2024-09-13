@@ -2,8 +2,10 @@ import './square.css';
 
 export default function Square(props) {
     const styles = {
-        top: props.positionY * 120 + 10,
-        left: props.positionX * 120 + 10,
+        width: 600/props.puzzleSize,
+        height: 600/props.puzzleSize,
+        top: props.positionY * 600/props.puzzleSize + 10,
+        left: props.positionX * 600/props.puzzleSize + 10,
         backgroundImage: props.needImage ? `url(${props.image})` : undefined
     }
     return (

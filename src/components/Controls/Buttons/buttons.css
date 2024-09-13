@@ -11,11 +11,12 @@
     align-items: center;
     user-select: none; 
     cursor: pointer;
-    box-shadow: inset -5px -5px 5px 0 rgba(0, 0, 0, .5), inset 5px 5px 5px 0 rgba(255, 255, 255, 0.5);
-    background-image: linear-gradient(to right, #c9c9c9 0%, #f7f7f7 51%, #b1b1b1 100%);
+    box-shadow: inset -5px -5px 5px 0 rgba(0, 0, 0, .5), inset 5px 5px 5px 0 rgb(212 212 212 / 50%);
+    background-image: linear-gradient(to right, #c9c9c9 0%, #f7f7f7 51%, #d8d8d8 100%);
+    background-position: right center;
 }
 .button:hover {
-    background-position: right center;
+    background-position: 0 0;
 }
 .button:active {
     box-shadow: inset -2px -2px 2px 0 rgba(0, 0, 0, .5), inset 5px 5px 5px 0 rgba(255, 255, 255, 0.5);

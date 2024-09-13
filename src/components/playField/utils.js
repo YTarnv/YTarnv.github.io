@@ -30,8 +30,9 @@ export function generateImageFragments(imageUrl, fragmentSize, numRows, numCols)
     });
 }
 
-export function normalizeAndGenerateImageFragments(imageUrl, fragmentSize, numRows, numCols) {
+export function normalizeAndGenerateImageFragments(imageUrl, fragmentSize, numRows) {
     return new Promise((resolve, reject) => {
+        const numCols = numRows;
         const image = new Image();
         image.src = imageUrl;
         image.onload = () => {

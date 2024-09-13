@@ -80,8 +80,9 @@ export default function Controls({ setControlHandlers }) {
 
     useEffect(() => {
         const controlsContent = [
-            {type: "button", content: "New puzzle", id: "button1"},
+            {type: "button", content: "New puzzle 5x5", id: "button1"},
             {type: "button", content: "New puzzle 4x4", id: "button2"},
+            {type: "button", content: "New puzzle 3x3", id: "button3"},
             {type: "switch1", label: "Show numbers", id: "switch1", set: "view", state: true},
             {type: "switch1",  label: "Show image", id: "switch2", set: "view", state: true}
         ];
