@@ -46,6 +46,7 @@
     width: 140px;
 }
 .switch1Body {
+    cursor: pointer;
     margin-top: 10px;
     position: relative;
     width: 130px;

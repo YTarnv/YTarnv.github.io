@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import './playField.css';
 import Square from '../square/square.js';
 import {normalizeAndGenerateImageFragments} from './utils.js';
-import image from './testimage.jpg';
+import image from './Images/image1.jpg';
 
 const directions = {
     "1,0": [1, 0],  // right
@@ -114,12 +114,23 @@ function createNewSquares(emptySquare, size) {
     return newSquares;
 }
 
-export default function PlayField({ controlHandlers }) {
+const loadImage = async (imageName) => {
+    try {
+        const image = await import(`./Images/${imageName}`);
+        return image.default;  // path to image
+    } catch (error) {
+        // console.error(`Image ${imageName} not found`, error);
+        return null;  // if image not founded
+    }
+};
+
+export default function PlayField({ controlHandlers, controlImage }) {
 
     const [emptySquare, setEmptySquare] = useState({ x: 0, y: 0 });
     const [squares, setSquares] = useState([]);
     const [images, setImages] = useState([]);
     const [settings, setSettings] = useState({set1: {switch1: true, switch2: true}, set2: {switch3: true, switch4: true}, size: 5});
+    const [imageSrc, setImageSrc] = useState(null);
 
     const initializePuzzle = () => {
         let initialEmptySquare;
@@ -171,6 +182,17 @@ export default function PlayField({ controlHandlers }) {
     };
 
     useEffect(() => {
+        const fetchImage = async () => {
+            const loadedImage = await loadImage(controlImage);
+            if (loadedImage) {
+                setImageSrc(loadedImage);
+            }
+        };
+
+        fetchImage();
+    }, [controlImage]);
+
+    useEffect(() => {
         initializePuzzle();
     }, [settings.size]);
 
@@ -191,14 +213,16 @@ export default function PlayField({ controlHandlers }) {
     };
 
     useEffect(() => {
-        normalizeAndGenerateImageFragments(image, 600/settings.size, settings.size)
-    .then(imageFragments => {
-        setImages(imageFragments);
-    })
-    .catch(error => {
-        console.error('Error creating image fragments:', error);
-    });
-    },[settings.size])
+        if (imageSrc) {
+        normalizeAndGenerateImageFragments(imageSrc, 600/settings.size, settings.size)
+            .then(imageFragments => {
+                setImages(imageFragments);
+            })
+            .catch(error => {
+                console.error('Error creating image fragments:', error);
+            });
+        }
+    },[settings.size, imageSrc])
 
     useEffect(() => {
         const handlers = {

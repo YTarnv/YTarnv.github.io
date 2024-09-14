@@ -1,0 +1,18 @@
+.imagePanel {
+    font-weight: 600;
+    width: 160px;
+    height: 620px;
+    margin-left:40px;
+}
+
+.imagesContainer {
+    width: 100%;
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+}
+
+.imagesTitle {
+    text-align: center;
+    margin-bottom: 10px;
+}
