@@ -7,13 +7,14 @@ import ImagePanel from './components/imagePanel/imagePanel.js'
 function App() {
   const [controlHandlers, setControlHandlers] = useState([]);
   const [controlImage, setControlImage] = useState("image1.jpg");
+  const [fieldStatus, setFieldStatus] = useState({started: false, solved: false})
 
   return (
     <main>
       <div className="gameField">
         <Controls setControlHandlers={setControlHandlers} />
-        <PlayField  controlHandlers={controlHandlers} controlImage={controlImage}/>
-        <ImagePanel setControlImage={setControlImage} controlImage={controlImage}/>
+        <PlayField  controlHandlers={controlHandlers} controlImage={controlImage} setFieldStatus={setFieldStatus}/>
+        <ImagePanel setControlImage={setControlImage} controlImage={controlImage} fieldStatus = {fieldStatus}/>
       </div>
     </main>
   );

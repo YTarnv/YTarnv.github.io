@@ -4,11 +4,7 @@ import ImageSquare from './ImageSquare/imageSquare.js';
 import image from './previewImages/image1.jpg';
 import images from './loadPreviews';
 
-export default function ImagePanel({ setControlImage, controlImage }) {
-    
-    // const selectedImage = "image1.jpg"
-
-    // const [imageSquares, setImageSquares] = useState(["image1","image2","image3","image4","image5","image6","image7","image8"]);
+export default function ImagePanel({ setControlImage, controlImage, fieldStatus }) {
 
     const handleClickImage = (id) => {
         // Force state update
@@ -29,7 +25,7 @@ export default function ImagePanel({ setControlImage, controlImage }) {
     ));
 
     return (
-        <div className="imagePanel">
+        <div className="imagePanel"  style={fieldStatus.started === true ? {opacity : 0, userSelect: 'none'} : undefined}>
             <div className="imagesTitle">Select Image</div>
             <div className="imagesContainer">
                 {imageElements}

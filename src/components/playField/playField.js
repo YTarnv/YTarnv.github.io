@@ -123,12 +123,18 @@ const loadImage = async (imageName) => {
     }
 };
 
-export default function PlayField({ controlHandlers, controlImage }) {
+export default function PlayField({ controlHandlers, controlImage, setFieldStatus }) {
 
     const [emptySquare, setEmptySquare] = useState({ x: 0, y: 0 });
     const [squares, setSquares] = useState([]);
     const [images, setImages] = useState([]);
-    const [settings, setSettings] = useState({set1: {switch1: true, switch2: true}, set2: {switch3: true, switch4: true}, size: 5});
+    const [settings, setSettings] = useState({
+        set1: {switch1: true, switch2: true}, 
+        set2: {switch3: true, switch4: true}, 
+        size: 5, 
+        started: false,
+        solved: false
+    });
     const [imageSrc, setImageSrc] = useState(null);
 
     const initializePuzzle = () => {
@@ -141,6 +147,28 @@ export default function PlayField({ controlHandlers, controlImage }) {
 
         setEmptySquare(initialEmptySquare);
         setSquares(initialSquares);
+        setSettings(prevSettings => ({
+            ...prevSettings,
+            started: false
+        }));
+    };
+
+    const prepareInitialization = () => {
+        if (controlHandlers.startsWith("button")) {
+            const updatedSize = 6 - parseInt(controlHandlers.slice(6));
+    
+            if (settings.size !== updatedSize) 
+            {
+                setSettings(prevSettings => ({
+                    ...prevSettings,
+                    size: updatedSize
+                }));
+            }
+            else 
+            {
+                initializePuzzle();
+            }
+        } 
     };
 
     const switchSwitched = () => {
@@ -180,6 +208,37 @@ export default function PlayField({ controlHandlers, controlImage }) {
         });
     };
 
+    const backStyle = {
+        backgroundImage: imageSrc ? `url(${imageSrc})` : undefined
+    };
+
+    function moveSquare(x,y) {
+        const dx = x - emptySquare.x;
+        const dy = y - emptySquare.y;
+        
+        const key = `${dx},${dy}`;
+        if (directions[key]) {
+            let newSquares = squares.map(square => {
+                return (square.positionX === x && square.positionY === y) ?
+                {...square, positionX: square.positionX - directions[key][0], positionY: square.positionY - directions[key][1]} :
+                square;
+            });
+            setSquares(newSquares);
+            setEmptySquare({ "x":x, "y":y });
+            setSettings(prevSettings => ({
+                ...prevSettings,
+                started: true
+            }));
+        }
+    }
+
+    useEffect(() => {
+        setSettings(prevSettings => ({
+            ...prevSettings,
+            solved: isPuzzleSolved(squares)
+        }));
+    },[squares]);
+
     useEffect(() => {
         const fetchImage = async () => {
             const loadedImage = await loadImage(controlImage);
@@ -195,21 +254,9 @@ export default function PlayField({ controlHandlers, controlImage }) {
         initializePuzzle();
     }, [settings.size]);
 
-    const prepareInitialization = () => {
-        if (controlHandlers.startsWith("button")) {
-            const newSize = parseInt(controlHandlers.slice(6));
-            const updatedSize = 6 - newSize;
-    
-            if (settings.size !== updatedSize) {
-                setSettings(prevSettings => ({
-                    ...prevSettings,
-                    size: updatedSize
-                }));
-            }
-        } else {
-            initializePuzzle();
-        }
-    };
+    useEffect(() => {
+        setFieldStatus({started: settings.started, solved: settings.solved});
+    },[settings.started, settings.solved]);
 
     useEffect(() => {
         if (imageSrc) {
@@ -240,26 +287,6 @@ export default function PlayField({ controlHandlers, controlImage }) {
         initializePuzzle();
     },[]);
 
-    function moveSquare(x,y) {
-        const dx = x - emptySquare.x;
-        const dy = y - emptySquare.y;
-        
-        const key = `${dx},${dy}`;
-        if (directions[key]) {
-            let newSquares = squares.map(square => {
-                return (square.positionX === x && square.positionY === y) ?
-                {...square, positionX: square.positionX - directions[key][0], positionY: square.positionY - directions[key][1]} :
-                square;
-            });
-            setSquares(newSquares);
-            setEmptySquare({ "x":x, "y":y });
-        }
-    }
-
-    const backStyle = {
-        backgroundImage: imageSrc ? `url(${imageSrc})` : undefined
-    };
-
     const squareElements = squares.map(square => (
         <Square
             puzzleSize = {settings.size}
@@ -283,7 +310,7 @@ export default function PlayField({ controlHandlers, controlImage }) {
             )}
             <div className="backImage" style={settings.set1.switch2 ? backStyle : null}></div>
             {squareElements}
-            {isPuzzleSolved(squares) && (
+            {settings.solved && (
                 <div className="solved">
                     <span style={{width: '620px', display: 'block'}}><h2>Congratulations! You solved the puzzle!</h2></span>
                 </div>

@@ -6,7 +6,7 @@ export default function Square(props) {
         height: 600/props.puzzleSize,
         top: props.positionY * 600/props.puzzleSize + 10,
         left: props.positionX * 600/props.puzzleSize + 10,
-        backgroundImage: props.needImage ? `url(${props.image})` : undefined
+        backgroundImage: props.needImage ? `url(${props.image})` : "unset"
     }
     return (
     <div 
