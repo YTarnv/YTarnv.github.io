@@ -25,7 +25,7 @@ export default function ImagePanel({ setControlImage, controlImage, fieldStatus 
     ));
 
     return (
-        <div className="imagePanel"  style={fieldStatus.started === true ? {opacity : 0, userSelect: 'none'} : undefined}>
+        <div className="imagePanel"  style={fieldStatus.started === true ? {opacity : 0, pointerEvents: 'none'} : undefined}>
             <div className="imagesTitle">Select Image</div>
             <div className="imagesContainer">
                 {imageElements}
