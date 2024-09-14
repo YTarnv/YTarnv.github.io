@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkpuzzle15_react=self.webpackChunkpuzzle15_react||[]).push([[85],{85:(e,a,c)=>{e.exports=c.p+"static/media/image3.442244d695134a37c19c.jpg"}}]);

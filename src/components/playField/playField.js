@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import './playField.css';
 import Square from '../square/square.js';
 import {normalizeAndGenerateImageFragments} from './utils.js';
-import image from './Images/image1.jpg';
 
 const directions = {
     "1,0": [1, 0],  // right
@@ -257,6 +256,10 @@ export default function PlayField({ controlHandlers, controlImage }) {
         }
     }
 
+    const backStyle = {
+        backgroundImage: imageSrc ? `url(${imageSrc})` : undefined
+    };
+
     const squareElements = squares.map(square => (
         <Square
             puzzleSize = {settings.size}
@@ -274,12 +277,17 @@ export default function PlayField({ controlHandlers, controlImage }) {
 
         return (
         <div className="playField">
+            {settings.set1.switch2 && 
+                (<div className="backLight"></div>
+
+            )}
+            <div className="backImage" style={settings.set1.switch2 ? backStyle : null}></div>
             {squareElements}
             {isPuzzleSolved(squares) && (
-            <div className="solved">
-                <h2>Congratulations! You solved the puzzle!</h2>
-            </div>
-        )}
+                <div className="solved">
+                    <span style={{width: '620px', display: 'block'}}><h2>Congratulations! You solved the puzzle!</h2></span>
+                </div>
+            )}
         </div>
     )
     
