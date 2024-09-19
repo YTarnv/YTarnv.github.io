@@ -12,9 +12,9 @@ function App() {
   return (
     <main>
       <div className="gameField">
-        <Controls setControlHandlers={setControlHandlers} />
-        <PlayField  controlHandlers={controlHandlers} controlImage={controlImage} setFieldStatus={setFieldStatus}/>
-        <ImagePanel setControlImage={setControlImage} controlImage={controlImage} fieldStatus = {fieldStatus}/>
+          <Controls setControlHandlers={setControlHandlers} />
+          <PlayField  controlHandlers={controlHandlers} controlImage={controlImage} setFieldStatus={setFieldStatus}/>
+          <ImagePanel setControlImage={setControlImage} controlImage={controlImage} fieldStatus = {fieldStatus}/>
       </div>
     </main>
   );

@@ -1,0 +1,57 @@
+.congrat {
+    position: absolute;
+    top: -50px;
+    text-align:center;
+    color:#696969;
+    font-weight:600;
+    font-size:26px;
+    width: 100%;    
+    overflow:hidden;
+    -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    -webkit-transform: translate3d(0,0,0);
+    text-shadow: 3px 3px 5px #b3b3b3;
+}
+
+.congrat > div {
+  display:inline-block;
+  overflow:hidden;
+  white-space:nowrap;
+}
+
+.congrat > div:first-of-type {
+
+  animation: showup 7s forwards;
+}
+
+.congrat > div:last-of-type {
+  width:0px;
+  animation: reveal 7s forwards;
+}
+
+.congrat > div:last-of-type span {
+  margin-left:-350px;
+  animation: slidein 7s forwards;
+}
+
+@keyframes showup {
+    0% {opacity:0;}
+    20% {opacity:1;padding-left: 20px;}
+    80% {opacity:1;padding-left: 20px;}
+    100% {opacity:1;padding-left: 20px;}
+}
+
+@keyframes slidein {
+    0% { margin-left:-800px; }
+    20% { margin-left:-800px; }
+    35% { margin-left:0px; }
+    100% { margin-left:0px; }
+}
+
+@keyframes reveal {
+    0% {opacity:0;width:0px;}
+    20% {opacity:1;width:0px;}
+    30% {width:350px;}
+    80% {opacity:1;}
+    100% {opacity:1;width:350px;}
+}

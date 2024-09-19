@@ -35,3 +35,7 @@
     opacity: 0.3;
     filter:grayscale(90%) brightness(200%);
 }
+
+.squareContainer {
+    transition: opacity 1s ease 0.5s;
+  }

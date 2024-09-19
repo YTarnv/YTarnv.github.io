@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './playField.css';
 import Square from '../square/square.js';
+import Congrat from './Congrat/congrat.js';
 import {normalizeAndGenerateImageFragments} from './utils.js';
 
 const directions = {
@@ -308,13 +309,32 @@ export default function PlayField({ controlHandlers, controlImage, setFieldStatu
                 (<div className="backLight"></div>
 
             )}
-            <div className="backImage" style={settings.set1.switch2 ? backStyle : null}></div>
-            {squareElements}
-            {settings.solved && (
-                <div className="solved">
-                    <span style={{width: '620px', display: 'block'}}><h2>Congratulations! You solved the puzzle!</h2></span>
-                </div>
-            )}
+            {settings.solved && <Congrat />}
+         <div
+            className="backImage"
+            style={
+                settings.set1.switch2
+                    ? {
+                        ...backStyle, // Save backStyle
+                        filter: settings.solved
+                            ? 'none'
+                            : 'grayscale(90%) brightness(200%)', // fiter animation
+                        opacity: settings.solved ? 1 : 0.3, // opacity animation
+                        transition: settings.solved
+                            ? 'filter 1s ease 1.5s, opacity 1s ease 1.5s'
+                            : 'filter 1s ease, opacity 1s ease'
+                    }
+                : null // if switch2 == false, remove styles
+                }
+            ></div>
+            <div className="squareContainer"
+            style={{ 
+                opacity: settings.solved ? 0 : 1,
+                pointerEvents: settings.solved ? 'none' : 'auto' 
+            }}
+            >
+                {squareElements}
+            </div>
         </div>
     )
     
