@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './imagePanel.css';
 import ImageSquare from './ImageSquare/imageSquare.js';
+import ImageInput from './ImageInput/imageInput.js';
 import image from './previewImages/image1.jpg';
 import images from './loadPreviews';
 
-export default function ImagePanel({ setControlImage, controlImage, fieldStatus }) {
+export default function ImagePanel({ setControlImage, controlImage, fieldStatus, setCustomImage }) {
 
     const handleClickImage = (id) => {
         // Force state update
@@ -13,6 +14,10 @@ export default function ImagePanel({ setControlImage, controlImage, fieldStatus 
             setControlImage(id);  // Set a new value with a short delay
         }, 0);
     };
+
+    const handleCustomImage = (image) => {
+        setCustomImage(image);
+      };
 
     const imageElements = Object.keys(images).map(key => (
         <ImageSquare
@@ -30,6 +35,7 @@ export default function ImagePanel({ setControlImage, controlImage, fieldStatus 
             <div className="imagesContainer">
                 {imageElements}
             </div>
+            <ImageInput  onImageProcessed={handleCustomImage}/>
         </div>
     )
 }

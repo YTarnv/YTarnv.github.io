@@ -124,7 +124,7 @@ const loadImage = async (imageName) => {
     }
 };
 
-export default function PlayField({ controlHandlers, controlImage, setFieldStatus }) {
+export default function PlayField({ controlHandlers, controlImage, setControlImage, setFieldStatus, customImage }) {
 
     const [emptySquare, setEmptySquare] = useState({ x: 0, y: 0 });
     const [squares, setSquares] = useState([]);
@@ -154,8 +154,20 @@ export default function PlayField({ controlHandlers, controlImage, setFieldStatu
         }));
     };
 
+    const randomImage = () => {
+        // Force state update
+        setControlImage(null);  // Resetting the state
+        setTimeout(() => {
+            setControlImage(`image${Math.floor(Math.random() * 8) + 1}.jpg`);  // Set a new value with a short delay
+        }, 0);
+    };
+
     const prepareInitialization = () => {
         if (controlHandlers.startsWith("button")) {
+            if(!customImage || customImage.image != imageSrc)
+            {
+                randomImage();
+            }   
             const updatedSize = 6 - parseInt(controlHandlers.slice(6));
     
             if (settings.size !== updatedSize) 
@@ -252,6 +264,10 @@ export default function PlayField({ controlHandlers, controlImage, setFieldStatu
     }, [controlImage]);
 
     useEffect(() => {
+        setImageSrc(customImage.image);
+    }, [customImage]);
+
+    useEffect(() => {
         initializePuzzle();
     }, [settings.size]);
 
@@ -285,6 +301,7 @@ export default function PlayField({ controlHandlers, controlImage, setFieldStatu
     }, [controlHandlers]);
 
     useEffect(() => {
+        randomImage();
         initializePuzzle();
     },[]);
 
@@ -329,7 +346,7 @@ export default function PlayField({ controlHandlers, controlImage, setFieldStatu
             ></div>
             <div className="squareContainer"
             style={{ 
-                opacity: settings.solved ? 0 : 1,
+                opacity: settings.solved && settings.set1.switch2 ? 0 : 1,
                 pointerEvents: settings.solved ? 'none' : 'auto' 
             }}
             >

@@ -39,6 +39,7 @@
 }
 .switch1 {
     font-weight: 600;
+    transition: .5s;
 }
 
 .switch1Label {

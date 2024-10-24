@@ -4,7 +4,7 @@ import Button from './Buttons/button.js';
 import Switch from './Switches1/switch.js';
 import Switch1 from './Switches1/switch1.js';
 
-export default function Controls({ setControlHandlers }) {
+export default function Controls({ setControlHandlers, fieldStatus }) {
 
     const [controls, setControls] = useState([]);
 
@@ -66,6 +66,7 @@ export default function Controls({ setControlHandlers }) {
             case "switch1":
                 return (
                     <Switch1
+                        solved={fieldStatus.solved}
                         label={control.label}
                         id={control.id}
                         key={control.id}
