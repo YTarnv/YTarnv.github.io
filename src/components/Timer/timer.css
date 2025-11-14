@@ -10,3 +10,7 @@
   color: #696969;
   transform: translateY(-50px);
 }
+
+.timer-hidden {
+  visibility: hidden;
+}

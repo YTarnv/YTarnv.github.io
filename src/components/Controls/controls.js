@@ -4,7 +4,7 @@ import Button from './Buttons/button.js';
 import Switch from './Switches1/switch.js';
 import Switch1 from './Switches1/switch1.js';
 
-export default function Controls({ setControlHandlers, fieldStatus }) {
+export default function Controls({ setControlHandlers, fieldStatus, setUseTimer }) {
 
     const [controls, setControls] = useState([]);
 
@@ -40,6 +40,14 @@ export default function Controls({ setControlHandlers, fieldStatus }) {
             }
         }
         setControls(updatedControls);
+        
+        // Обновляем состояние таймера, если изменился switch3
+        if (id === "switch3") {
+            const switch3 = updatedControls.find(item => item.id === "switch3");
+            if (switch3) {
+                setUseTimer(switch3.state);
+            }
+        }
     };
 
     const controlElements = controls.map(control => {
@@ -89,6 +97,8 @@ export default function Controls({ setControlHandlers, fieldStatus }) {
             {type: "switch1",  label: "Use timer", id: "switch3", set: "view", state: true}
         ];
         setControls(controlsContent);
+        // Инициализируем состояние таймера
+        setUseTimer(true);
     }, []);
 
     return (

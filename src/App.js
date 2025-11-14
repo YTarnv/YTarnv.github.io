@@ -10,12 +10,13 @@ function App() {
   const [controlImage, setControlImage] = useState("");
   const [customImage, setCustomImage] = useState("");
   const [fieldStatus, setFieldStatus] = useState({started: false, solved: false})
+  const [useTimer, setUseTimer] = useState(true);
   return (
     <main>
       <div className="gameField">
-          <Timer fieldStatus={fieldStatus} />
+          <Timer fieldStatus={fieldStatus} useTimer={useTimer} />
           <div className="gameField-bottom">
-            <Controls setControlHandlers={setControlHandlers} fieldStatus = {fieldStatus}/>
+            <Controls setControlHandlers={setControlHandlers} fieldStatus = {fieldStatus} setUseTimer={setUseTimer}/>
             <PlayField  
               controlHandlers={controlHandlers} 
               setControlImage={setControlImage} 
