@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import PlayField from './components/playField/playField.js'
 import Controls from './components/Controls/controls.js'
 import ImagePanel from './components/imagePanel/imagePanel.js'
+import Timer from './components/Timer/timer.js'
 
 function App() {
   const [controlHandlers, setControlHandlers] = useState([]);
@@ -12,20 +13,23 @@ function App() {
   return (
     <main>
       <div className="gameField">
-          <Controls setControlHandlers={setControlHandlers} fieldStatus = {fieldStatus}/>
-          <PlayField  
-            controlHandlers={controlHandlers} 
-            setControlImage={setControlImage} 
-            controlImage={controlImage} 
-            setFieldStatus={setFieldStatus}
-            customImage={customImage}
-          />
-          <ImagePanel 
-            setControlImage={setControlImage} 
-            controlImage={controlImage} 
-            fieldStatus = {fieldStatus}
-            setCustomImage={setCustomImage}
-          />
+          <Timer fieldStatus={fieldStatus} />
+          <div className="gameField-bottom">
+            <Controls setControlHandlers={setControlHandlers} fieldStatus = {fieldStatus}/>
+            <PlayField  
+              controlHandlers={controlHandlers} 
+              setControlImage={setControlImage} 
+              controlImage={controlImage} 
+              setFieldStatus={setFieldStatus}
+              customImage={customImage}
+            />
+            <ImagePanel 
+              setControlImage={setControlImage} 
+              controlImage={controlImage} 
+              fieldStatus = {fieldStatus}
+              setCustomImage={setCustomImage}
+            />
+          </div>
       </div>
     </main>
   );

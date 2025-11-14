@@ -18,7 +18,7 @@ export default function ImagePanel({ setControlImage, controlImage, fieldStatus,
     const handleCustomImage = (image) => {
         setCustomImage(image);
       };
-
+    //const omg = ('b' + 'a' + +'a' + 'a').toLowerCase();
     const imageElements = Object.keys(images).map(key => (
         <ImageSquare
         id={key}
@@ -32,6 +32,7 @@ export default function ImagePanel({ setControlImage, controlImage, fieldStatus,
     return (
         <div className="imagePanel"  style={fieldStatus.started === true ? {opacity : 0, pointerEvents: 'none'} : undefined}>
             <div className="imagesTitle">Select Image</div>
+            {/* <div>{omg}</div> */}
             <div className="imagesContainer">
                 {imageElements}
             </div>
